@@ -26,6 +26,10 @@ const en = {
   "camera.mean": "Mean color in ROI",
   "camera.hsv": "HSV",
   "camera.dominant": "Dominant hue",
+  "camera.device": "Camera device",
+  "camera.no_devices": "No camera found",
+  "camera.switch_failed": "Failed to switch camera",
+  "camera.refresh": "Refresh",
 
   "pie.title": "Breakdown by category",
   "pie.empty": "No detections yet today",

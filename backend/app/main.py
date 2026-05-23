@@ -86,6 +86,10 @@ class PauseIn(BaseModel):
     paused: bool
 
 
+class CameraSelectIn(BaseModel):
+    index: int = Field(ge=0, le=15)
+
+
 # --------------------------------------------------------------------------- routes
 
 
@@ -97,6 +101,7 @@ def stats():
         "recent": db.recent_events(limit=50),
         "live": live.to_dict() if live else None,
         "camera_mode": camera.mode,
+        "camera_index": camera.index,
         "inference_ms": round(pipeline.latest_inference_ms(), 2),
         "display_fps": round(pipeline.display_fps(), 1),
     }
@@ -196,6 +201,23 @@ def camera_snapshot():
     if jpg is None:
         raise HTTPException(503, "no frame yet")
     return Response(content=jpg, media_type="image/jpeg")
+
+
+@app.get("/api/camera/devices")
+def camera_devices():
+    return {
+        "devices": camera.list_devices(),
+        "current": camera.index,
+        "mode": camera.mode,
+    }
+
+
+@app.post("/api/camera/select")
+def camera_select(payload: CameraSelectIn):
+    ok = camera.switch(payload.index)
+    if not ok:
+        raise HTTPException(400, f"failed to open camera index {payload.index}")
+    return {"current": camera.index, "mode": camera.mode}
 
 
 # --------------------------------------------------------------------------- SSE live events

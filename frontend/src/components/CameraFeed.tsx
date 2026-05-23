@@ -1,7 +1,16 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Card } from "./Card";
 import { useI18n } from "../i18n/I18nProvider";
-import { getSettings, getStats, setPaused, streamUrl, StatsResponse } from "../api";
+import {
+  CameraDevice,
+  getSettings,
+  getStats,
+  listCameras,
+  selectCamera,
+  setPaused,
+  streamUrl,
+  StatsResponse,
+} from "../api";
 import { CATEGORY_COLOR } from "../theme";
 import { Icon } from "./Icon";
 
@@ -9,6 +18,20 @@ export function CameraFeed() {
   const { t } = useI18n();
   const [stats, setStats] = useState<StatsResponse | null>(null);
   const [paused, setPausedLocal] = useState(false);
+  const [devices, setDevices] = useState<CameraDevice[]>([]);
+  const [currentDevice, setCurrentDevice] = useState<number | null>(null);
+  const [streamKey, setStreamKey] = useState(0);
+  const [switching, setSwitching] = useState(false);
+
+  const refreshDevices = async () => {
+    try {
+      const d = await listCameras();
+      setDevices(d.devices);
+      setCurrentDevice(d.current);
+    } catch {
+      /* ignore */
+    }
+  };
 
   useEffect(() => {
     let alive = true;
@@ -23,6 +46,7 @@ export function CameraFeed() {
     tick();
     const id = setInterval(tick, 1000);
     getSettings().then((s) => alive && setPausedLocal(s.paused)).catch(() => {});
+    refreshDevices();
     return () => {
       alive = false;
       clearInterval(id);
@@ -39,6 +63,23 @@ export function CameraFeed() {
     }
   };
 
+  const onPickDevice = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (Number.isNaN(value) || value === currentDevice) return;
+    setSwitching(true);
+    try {
+      const r = await selectCamera(value);
+      setCurrentDevice(r.current);
+      // Force the MJPEG <img> to reconnect so we drop the old stream buffer.
+      setStreamKey((k) => k + 1);
+      refreshDevices();
+    } catch (err) {
+      alert(t("camera.switch_failed"));
+    } finally {
+      setSwitching(false);
+    }
+  };
+
   const live = stats?.live;
 
   return (
@@ -46,24 +87,54 @@ export function CameraFeed() {
       title={t("camera.title")}
       icon="camera"
       action={
-        <button
-          onClick={togglePause}
-          className={
-            "flex items-center gap-1.5 text-[11px] uppercase tracking-wider px-3 py-1 border " +
-            (paused
-              ? "bg-cat-b text-white border-cat-b"
-              : "bg-ink text-paper border-ink hover:opacity-90")
-          }
-        >
-          <Icon name={paused ? "play" : "pause"} size={14} />
-          {paused ? t("camera.resume") : t("camera.pause")}
-        </button>
+        <div className="flex items-center gap-2">
+          <select
+            value={currentDevice ?? ""}
+            onChange={onPickDevice}
+            disabled={switching || devices.length === 0}
+            title={t("camera.device")}
+            className="text-[11px] uppercase tracking-wider px-2 py-1 border hairline bg-paper text-ink disabled:opacity-50"
+          >
+            {devices.length === 0 && (
+              <option value="">{t("camera.no_devices")}</option>
+            )}
+            {currentDevice === null && devices.length > 0 && (
+              <option value="">{t("camera.device")}</option>
+            )}
+            {devices.map((d) => (
+              <option key={d.index} value={d.index}>
+                {d.name}
+              </option>
+            ))}
+          </select>
+          <button
+            onClick={refreshDevices}
+            disabled={switching}
+            title={t("camera.refresh")}
+            className="text-[11px] uppercase tracking-wider px-2 py-1 border hairline hover:bg-ink hover:text-paper disabled:opacity-50"
+          >
+            {t("camera.refresh")}
+          </button>
+          <button
+            onClick={togglePause}
+            className={
+              "flex items-center gap-1.5 text-[11px] uppercase tracking-wider px-3 py-1 border " +
+              (paused
+                ? "bg-cat-b text-white border-cat-b"
+                : "bg-ink text-paper border-ink hover:opacity-90")
+            }
+          >
+            <Icon name={paused ? "play" : "pause"} size={14} />
+            {paused ? t("camera.resume") : t("camera.pause")}
+          </button>
+        </div>
       }
     >
       <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_220px]">
         <div className="relative bg-black aspect-[4/3] overflow-hidden">
           <img
-            src={streamUrl}
+            key={streamKey}
+            src={`${streamUrl}?k=${streamKey}`}
             alt="camera"
             className="w-full h-full object-cover"
           />

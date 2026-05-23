@@ -28,6 +28,10 @@ const th: Record<TranslationKey, string> = {
   "camera.mean": "ค่าสีเฉลี่ยในวงกลม",
   "camera.hsv": "HSV",
   "camera.dominant": "เฉดหลัก",
+  "camera.device": "เลือกกล้อง",
+  "camera.no_devices": "ไม่พบกล้อง",
+  "camera.switch_failed": "สลับกล้องไม่สำเร็จ",
+  "camera.refresh": "รีเฟรช",
 
   "pie.title": "สัดส่วนแต่ละหมวด",
   "pie.empty": "ยังไม่มีการตรวจจับวันนี้",

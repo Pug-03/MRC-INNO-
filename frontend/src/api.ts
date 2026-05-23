@@ -31,8 +31,21 @@ export interface StatsResponse {
     mean_rgb_hex: string;
   } | null;
   camera_mode: string;
+  camera_index: number | null;
   inference_ms: number;
   display_fps: number;
+}
+
+export interface CameraDevice {
+  index: number;
+  name: string;
+  active: boolean;
+}
+
+export interface CameraDevicesResponse {
+  devices: CameraDevice[];
+  current: number | null;
+  mode: string;
 }
 
 export interface SystemStats {
@@ -155,6 +168,25 @@ export function excelUrl(start: string, end: string): string {
 }
 
 export const streamUrl = `${base}/api/camera/stream`;
+
+export async function listCameras(): Promise<CameraDevicesResponse> {
+  const r = await fetch(`${base}/api/camera/devices`);
+  if (!r.ok) throw new Error("list cameras failed");
+  return r.json();
+}
+
+export async function selectCamera(index: number): Promise<{ current: number | null; mode: string }> {
+  const r = await fetch(`${base}/api/camera/select`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ index }),
+  });
+  if (!r.ok) {
+    const detail = await r.text();
+    throw new Error(detail || "select camera failed");
+  }
+  return r.json();
+}
 
 export function subscribeEvents(onDetection: (e: DetectionEvent) => void): () => void {
   const es = new EventSource(`${base}/api/events`);

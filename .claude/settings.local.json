@@ -27,7 +27,11 @@
       "Bash(python -m json.tool)",
       "Bash(.venv/Scripts/python.exe -c ' *)",
       "Bash(cmd.exe /c start \"\" \"c:\\\\VS_Code_Pug\\\\INNO\\(Pv\\)\\\\start.bat\")",
-      "Bash(cmd.exe /c start \"\" http://localhost:5175)"
+      "Bash(cmd.exe /c start \"\" http://localhost:5175)",
+      "Bash(python -m py_compile app/camera.py app/main.py)",
+      "Bash(.venv/Scripts/python.exe -m pip install \"pygrabber==0.2\")",
+      "Bash(.venv/Scripts/python.exe -c \"from pygrabber.dshow_graph import FilterGraph; print\\(FilterGraph\\(\\).get_input_devices\\(\\)\\)\")",
+      "Bash(.venv/Scripts/python.exe -c \"from app.camera import _enum_pygrabber; print\\(_enum_pygrabber\\(\\)\\)\")"
     ]
   }
 }
