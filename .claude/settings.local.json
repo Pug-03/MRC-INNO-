@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m venv .venv)",
+      "Bash(.venv/Scripts/python.exe -m pip install --upgrade pip)",
+      "Bash(.venv/Scripts/python.exe -m pip install -r requirements.txt)",
+      "Bash(.venv/Scripts/python.exe -c \"from app import main; print\\('import OK'\\)\")",
+      "Bash(.venv/Scripts/python.exe run.py)",
+      "Bash(curl -s http://localhost:8000/api/health)",
+      "Bash(curl -s http://localhost:8000/api/stats)",
+      "Bash(curl -s http://localhost:8000/api/system)",
+      "Bash(curl -s -I http://localhost:8000/api/camera/snapshot.jpg)",
+      "Bash(curl -s -o /tmp/test.xlsx -w \"HTTP %{http_code} size=%{size_download}\\\\n\" \"http://localhost:8000/api/export/excel?date=2026-04-24\")",
+      "Bash(curl *)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)",
+      "Bash(npm run *)",
+      "Bash(python -c \"import sys, json; d=json.load\\(sys.stdin\\); print\\('camera_mode:', d['camera_mode']\\); print\\('live:', d['live']\\); print\\('today total:', d['today']['total']\\)\")",
+      "Bash(python -c \"import sys, json; d=json.load\\(sys.stdin\\); print\\('live:', d['live']\\)\")",
+      "Bash(python -c \"import sys, json; d=json.load\\(sys.stdin\\); print\\(f\\\\\"inference:  {d['inference_ms']} ms\\\\\"\\); print\\(f\\\\\"camera:     {d['camera_mode']}\\\\\"\\); print\\(f\\\\\"live:       {d['live']}\\\\\"\\)\")",
+      "Bash(python -c \"import sys, json; d=json.load\\(sys.stdin\\); print\\('live:', d['live']\\); print\\('inference:', d['inference_ms'], 'ms'\\)\")",
+      "Bash(python -c \"import sys, json; d=json.load\\(sys.stdin\\); print\\(f\\\\\"display_fps:  {d['display_fps']}\\\\\"\\); print\\(f\\\\\"inference_ms: {d['inference_ms']}\\\\\"\\); print\\(f\\\\\"camera_mode:  {d['camera_mode']}\\\\\"\\); print\\(f\\\\\"live:         {d['live']['category'] if d['live'] else None}\\\\\"\\)\")",
+      "Bash(.venv/Scripts/python.exe probe_camera.py)",
+      "Bash(nvidia-smi --query-gpu=name,driver_version --format=csv,noheader)",
+      "Bash(.venv/Scripts/python.exe -m pip install cupy-cuda12x)",
+      "Bash(python -m json.tool)",
+      "Bash(.venv/Scripts/python.exe -c ' *)",
+      "Bash(cmd.exe /c start \"\" \"c:\\\\VS_Code_Pug\\\\INNO\\(Pv\\)\\\\start.bat\")",
+      "Bash(cmd.exe /c start \"\" http://localhost:5175)"
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+import type { TranslationKey } from "./en";
+
+const th: Record<TranslationKey, string> = {
+  "app.title": "ระบบคัดแยกฝา",
+  "app.subtitle": "แดชบอร์ดคัดแยกสี",
+  "nav.dashboard": "แดชบอร์ด",
+  "nav.history": "ประวัติ",
+  "lang.th": "ไทย",
+  "lang.en": "EN",
+
+  "cat.A": "น้ำเงิน / กรม / ม่วง",
+  "cat.B": "แดง / ส้ม / เหลือง",
+  "cat.C": "ดำ",
+  "cat.D": "ขาว",
+  "cat.E": "เขียว",
+  "cat.short": "หมวด",
+
+  "camera.title": "กล้องสด",
+  "camera.roi": "วิเคราะห์เฉพาะสีในวงกลมเท่านั้น",
+  "camera.detected": "ตรวจพบ",
+  "camera.none": "ไม่มีฝาในเฟรม",
+  "camera.mode": "แหล่งภาพ",
+  "camera.inference": "เวลาประมวลผล",
+  "camera.fps": "เฟรมต่อวินาที",
+  "camera.pause": "หยุดชั่วคราว",
+  "camera.resume": "ทำงานต่อ",
+  "camera.paused": "หยุดอยู่",
+  "camera.mean": "ค่าสีเฉลี่ยในวงกลม",
+  "camera.hsv": "HSV",
+  "camera.dominant": "เฉดหลัก",
+
+  "pie.title": "สัดส่วนแต่ละหมวด",
+  "pie.empty": "ยังไม่มีการตรวจจับวันนี้",
+  "pie.count": "จำนวน",
+  "pie.percent": "เปอร์เซ็นต์",
+
+  "total.title": "ยอดรวมวันนี้",
+  "total.legend": "แยกตามหมวด",
+
+  "log.title": "บันทึกเหตุการณ์",
+  "log.empty": "กำลังรอการตรวจจับ",
+  "log.send": "ส่งสรุปเข้า LINE",
+  "log.sent": "ส่งแล้ว",
+  "log.failed": "ส่งไม่สำเร็จ",
+
+  "system.title": "สถานะระบบ",
+  "system.cpu": "ซีพียู",
+  "system.gpu": "จีพียู",
+  "system.mem": "หน่วยความจำ",
+  "system.level.normal": "ปกติ",
+  "system.level.warm": "อุ่น",
+  "system.level.hot": "ร้อน",
+  "system.level.unknown": "ไม่พร้อมใช้งาน",
+  "system.temp": "อุณหภูมิ",
+  "system.load": "การใช้งาน",
+  "system.vram": "VRAM",
+
+  "history.title": "ข้อมูลย้อนหลัง",
+  "history.from": "ตั้งแต่",
+  "history.to": "ถึง",
+  "history.apply": "ค้นหา",
+  "history.export": "ส่งออก Excel",
+  "history.day": "วันที่",
+  "history.total": "รวม",
+  "history.empty": "ไม่มีข้อมูลในช่วงนี้",
+
+  "footer.updated": "อัปเดตเมื่อ",
+
+  "settings.title": "ตั้งค่า",
+  "settings.interval": "ช่วงเวลาอ่านค่า",
+  "settings.auto_notify": "แจ้งเตือน LINE อัตโนมัติ",
+  "settings.reset": "รีเซ็ตทั้งหมด",
+  "settings.reset_confirm": "ลบข้อมูลการตรวจจับทั้งหมด?",
+  "settings.reset_done": "รีเซ็ตสำเร็จ",
+  "settings.seconds": "วินาที",
+  "settings.roi": "ขนาดวงกลมตรวจจับ",
+  "settings.reset_settings": "รีเซ็ตการตั้งค่า",
+  "settings.reset_settings_confirm": "คืนค่าช่วงเวลา / การแจ้งเตือน / ขนาดวงกลม เป็นค่าเริ่มต้น?",
+  "settings.reset_data": "รีเซ็ตข้อมูลทั้งหมด",
+};
+
+export default th;
